@@ -104,10 +104,7 @@ class MockAuthService implements AuthService {
     return null;
   }
 
-  AuthResponseModel _authResponse(
-    Map<String, String> account,
-    String message,
-  ) {
+  AuthResponseModel _authResponse(Map<String, String> account, String message) {
     return AuthResponseModel.fromJson({
       'message': message,
       'token': 'mock-token-${account['id']}',
