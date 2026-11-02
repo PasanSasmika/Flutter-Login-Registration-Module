@@ -69,12 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _openRegister() async {
-    final registeredEmail = await Navigator.pushNamed<String>(
-      context,
-      AppRoutes.register,
-    );
-    if (registeredEmail != null) {
-      _identifierController.text = registeredEmail;
+    final result = await Navigator.pushNamed(context, AppRoutes.register);
+    if (result is String) {
+      _identifierController.text = result;
       _passwordController.clear();
     }
   }
@@ -116,27 +113,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 onSubmitted: (_) => _submit(),
               ),
               const SizedBox(height: 4),
-              Row(
+              // Wraps onto two lines on narrow screens or with large text.
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: isLoading
-                          ? null
-                          : () => provider.setRememberMe(!provider.rememberMe),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: provider.rememberMe,
-                            onChanged: isLoading
-                                ? null
-                                : (value) =>
-                                      provider.setRememberMe(value ?? false),
-                            visualDensity: VisualDensity.compact,
-                          ),
-                          const Flexible(child: Text('Remember me')),
-                        ],
-                      ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: isLoading
+                        ? null
+                        : () => provider.setRememberMe(!provider.rememberMe),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Checkbox(
+                          value: provider.rememberMe,
+                          onChanged: isLoading
+                              ? null
+                              : (value) =>
+                                    provider.setRememberMe(value ?? false),
+                          visualDensity: VisualDensity.compact,
+                        ),
+                        const Text('Remember me'),
+                      ],
                     ),
                   ),
                   TextButton(
