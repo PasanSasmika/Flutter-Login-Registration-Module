@@ -72,6 +72,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       title: 'Create account',
       subtitle: 'Fill in your details to get started.',
       showBackButton: true,
+      // Leaving mid-request would let the success handler pop a second route.
+      canPop: !isLoading,
       child: Form(
         key: _formKey,
         autovalidateMode: _autovalidateMode,

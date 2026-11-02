@@ -12,6 +12,7 @@ class AuthLayout extends StatelessWidget {
     required this.subtitle,
     required this.child,
     this.showBackButton = false,
+    this.canPop = true,
   });
 
   static const _maxContentWidth = 440.0;
@@ -23,39 +24,46 @@ class AuthLayout extends StatelessWidget {
   final Widget child;
   final bool showBackButton;
 
+  /// Set to false to hold the user here while a request finishes.
+  final bool canPop;
+
   @override
   Widget build(BuildContext context) {
     final isWide = MediaQuery.sizeOf(context).width >= _wideScreenBreakpoint;
 
-    return Scaffold(
-      appBar: showBackButton ? AppBar() : null,
-      backgroundColor: isWide ? AppColors.fieldFill : AppColors.background,
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-              padding: EdgeInsets.symmetric(
-                horizontal: isWide ? 24 : 20,
-                vertical: 24,
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight - 48,
+    return PopScope(
+      canPop: canPop,
+      child: Scaffold(
+        appBar: showBackButton ? AppBar() : null,
+        backgroundColor: isWide ? AppColors.fieldFill : AppColors.background,
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
+                padding: EdgeInsets.symmetric(
+                  horizontal: isWide ? 24 : 20,
+                  vertical: 24,
                 ),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: _maxContentWidth,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: constraints.maxHeight - 48,
+                  ),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: _maxContentWidth,
+                      ),
+                      child: isWide
+                          ? _WideScreenCard(child: _buildContent(context))
+                          : _buildContent(context),
                     ),
-                    child: isWide
-                        ? _WideScreenCard(child: _buildContent(context))
-                        : _buildContent(context),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
