@@ -1,16 +1,20 @@
 # Flutter Login & Registration Module
 
+Keyo is a working name for this demo. To rename it, change `AppInfo.name` and the app labels in the platform folders.
+
 A login and registration module built with Flutter, Provider and Material 3 as a Flutter Associate Developer technical assignment. It runs on a mock authentication service that can be swapped for a real REST API by changing one line.
 
 ## Features
 
 - **Login** with email or mobile number, show/hide password, Remember Me and clear validation
-- **Registration** with field-specific validation and password security rules
+- **Splash screen**: a native splash that hands over to an animated Flutter splash
+- **Registration** with field-specific validation, password security rules and a live strength meter
 - **Forgot password** flow with a confirmation state
 - **Home screen** that shows the signed-in user, with sign out
 - Loading states, duplicate-submission protection and success/error SnackBars
 - Handling for validation, invalid credential, network and unexpected errors
 - Responsive layouts for small phones, large phones, tablets and the web
+- Brand design with a custom logo, launcher icons and the bundled Plus Jakarta Sans font
 - Reusable text field, password field, button and page layout widgets
 
 ## Technologies
@@ -20,6 +24,8 @@ A login and registration module built with Flutter, Provider and Material 3 as a
 | Framework | Flutter 3.32 (Dart 3.8), Material 3 |
 | State management | [provider](https://pub.dev/packages/provider) |
 | Local storage | [shared_preferences](https://pub.dev/packages/shared_preferences), for Remember Me only |
+| Dev tools | [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons), [flutter_native_splash](https://pub.dev/packages/flutter_native_splash) |
+| Font | [Plus Jakarta Sans](https://github.com/tokotype/PlusJakartaSans) (SIL Open Font License, see `assets/fonts/OFL.txt`) |
 
 ## Folder structure
 
@@ -28,7 +34,7 @@ lib/
   main.dart                 Entry point; chooses the AuthService
   app.dart                  MaterialApp, routes and providers
   core/
-    constants/              Route names
+    constants/              Route names and app info
     exceptions/             Typed failures from the service layer
     theme/                  Colours and Material 3 theme
     validators/             Form validation rules
@@ -42,9 +48,11 @@ lib/
     login_provider.dart
     register_provider.dart
     forgot_password_provider.dart
-  screens/                  login, register, forgot_password, home
+  screens/                  splash, login, register, forgot_password, home
   widgets/                  Reusable UI
 test/                       Unit and widget tests
+tool/                       Generates the brand images from the logo widget
+assets/                     Fonts and brand images
 ```
 
 ## Architecture
@@ -118,16 +126,32 @@ Remember Me saves the email or mobile number on the device and fills it in next 
 
 No provider or screen needs to change.
 
+## Brand assets
+
+The logo is drawn in code (`lib/widgets/app_logo.dart`). After changing it, regenerate the images:
+
+```bash
+flutter test tool/generate_brand_assets.dart
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
+```
+
 ## Screenshots
 
-| Login | Validation | Incorrect credentials |
-|---|---|---|
-| <img src="docs/screenshots/login.png" width="240"> | <img src="docs/screenshots/login_validation.png" width="240"> | <img src="docs/screenshots/login_error.png" width="240"> |
+Rendered from the app's widgets at 1080 x 2400.
 
-| Loading | Registration | Registration validation |
+| Splash | Login | Validation |
 |---|---|---|
-| <img src="docs/screenshots/login_loading.png" width="240"> | <img src="docs/screenshots/register.png" width="240"> | <img src="docs/screenshots/register_validation.png" width="240"> |
+| <img src="docs/screenshots/splash.png" width="240"> | <img src="docs/screenshots/login.png" width="240"> | <img src="docs/screenshots/login_validation.png" width="240"> |
 
-| Forgot password | Reset link sent | Home |
+| Loading | Incorrect credentials | Registration |
 |---|---|---|
-| <img src="docs/screenshots/forgot_password.png" width="240"> | <img src="docs/screenshots/forgot_password_sent.png" width="240"> | <img src="docs/screenshots/home.png" width="240"> |
+| <img src="docs/screenshots/login_loading.png" width="240"> | <img src="docs/screenshots/login_error.png" width="240"> | <img src="docs/screenshots/register.png" width="240"> |
+
+| Registration validation | Password strength | Forgot password |
+|---|---|---|
+| <img src="docs/screenshots/register_validation.png" width="240"> | <img src="docs/screenshots/register_strength.png" width="240"> | <img src="docs/screenshots/forgot_password.png" width="240"> |
+
+| Reset link sent | Home |
+|---|---|
+| <img src="docs/screenshots/forgot_password_sent.png" width="240"> | <img src="docs/screenshots/home.png" width="240"> |
