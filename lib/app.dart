@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'core/constants/app_info.dart';
 import 'core/constants/app_routes.dart';
 import 'core/theme/app_theme.dart';
 import 'providers/auth_provider.dart';
@@ -11,6 +12,7 @@ import 'screens/forgot_password/forgot_password_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/login/login_screen.dart';
 import 'screens/register/register_screen.dart';
+import 'screens/splash/splash_screen.dart';
 import 'services/auth_service.dart';
 
 class App extends StatelessWidget {
@@ -23,13 +25,13 @@ class App extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => AuthProvider(authService),
       child: MaterialApp(
-        title: 'Login & Registration',
+        title: AppInfo.name,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
-        initialRoute: AppRoutes.login,
         // Form providers are created per route, so their state is reset
         // whenever the user leaves a screen.
         routes: {
+          AppRoutes.splash: (_) => const SplashScreen(),
           AppRoutes.login: (_) => ChangeNotifierProvider(
             create: (context) => LoginProvider(context.read<AuthProvider>()),
             child: const LoginScreen(),
