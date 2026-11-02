@@ -42,7 +42,10 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
     });
-    _controller.forward();
+    // Start after the first frame, so a slow launch can't skip the animation.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _controller.forward();
+    });
   }
 
   @override
@@ -70,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen>
                 children: [
                   ScaleTransition(
                     scale: _logoScale,
-                    child: const AppLogo(size: 96),
+                    child: const AppLogo(size: 140),
                   ),
                   const SizedBox(height: 22),
                   FadeTransition(

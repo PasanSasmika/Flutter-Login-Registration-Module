@@ -20,7 +20,7 @@ class AuthLayout extends StatelessWidget {
 
   static const _maxCardWidth = 460.0;
   static const _wideScreenBreakpoint = 600.0;
-  static const _heroHeight = 380.0;
+  static const _heroHeight = 460.0;
 
   final String title;
   final String subtitle;
@@ -105,13 +105,20 @@ class _SheetLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    // Gives tall phones a larger header, so the form sits nearer the middle.
+    final extraSpace = MediaQuery.sizeOf(context).height > 700 ? 28.0 : 0.0;
 
     return CustomScrollView(
       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 24, 20, 28),
+            padding: EdgeInsets.fromLTRB(
+              20,
+              24 + extraSpace,
+              20,
+              28 + extraSpace,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -138,7 +145,12 @@ class _SheetLayout extends StatelessWidget {
                 color: AppColors.background,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
               ),
-              padding: const EdgeInsets.fromLTRB(20, 28, 20, 20),
+              padding: EdgeInsets.fromLTRB(
+                20,
+                28,
+                20,
+                MediaQuery.viewPaddingOf(context).bottom + 20,
+              ),
               child: child,
             ),
           ),

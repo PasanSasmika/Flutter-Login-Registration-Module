@@ -6,6 +6,7 @@ class AppTheme {
   const AppTheme._();
 
   static const double radius = 16;
+  static const _fontFamily = 'PlusJakartaSans';
 
   static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(
@@ -25,7 +26,7 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
-      fontFamily: 'PlusJakartaSans',
+      fontFamily: _fontFamily,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.background,
       textTheme: const TextTheme(
@@ -80,7 +81,11 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          textStyle: const TextStyle(
+            fontFamily: _fontFamily,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -91,13 +96,21 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
           ),
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          textStyle: const TextStyle(
+            fontFamily: _fontFamily,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
-          textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          textStyle: const TextStyle(
+            fontFamily: _fontFamily,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       checkboxTheme: CheckboxThemeData(
