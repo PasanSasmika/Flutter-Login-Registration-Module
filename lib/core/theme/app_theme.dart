@@ -5,7 +5,7 @@ import 'app_colors.dart';
 class AppTheme {
   const AppTheme._();
 
-  static const double radius = 14;
+  static const double radius = 16;
 
   static ThemeData get light {
     final colorScheme = ColorScheme.fromSeed(
@@ -25,13 +25,14 @@ class AppTheme {
 
     return ThemeData(
       useMaterial3: true,
+      fontFamily: 'PlusJakartaSans',
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppColors.background,
       textTheme: const TextTheme(
         headlineMedium: TextStyle(
           fontSize: 28,
-          fontWeight: FontWeight.w700,
-          letterSpacing: -0.5,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.6,
           color: AppColors.textPrimary,
         ),
         titleMedium: TextStyle(
