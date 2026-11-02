@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login_registration/app.dart';
+import 'package:flutter_login_registration/core/constants/app_info.dart';
 import 'package:flutter_login_registration/models/auth_response_model.dart';
 import 'package:flutter_login_registration/services/mock_auth_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -44,14 +45,19 @@ void main() {
   Finder field(int index) => find.byType(TextFormField).at(index);
 
   Future<void> tapButton(WidgetTester tester, String label) async {
-    final button = find.widgetWithText(FilledButton, label);
+    final button = find.widgetWithText(
+      FilledButton,
+      label,
+      skipOffstage: false,
+    );
     await tester.ensureVisible(button);
+    await tester.pumpAndSettle();
     await tester.tap(button);
     await tester.pumpAndSettle();
   }
 
   Future<void> tapLink(WidgetTester tester, String label) async {
-    final link = find.widgetWithText(TextButton, label);
+    final link = find.widgetWithText(TextButton, label, skipOffstage: false);
     await tester.ensureVisible(link);
     await tester.pumpAndSettle();
     await tester.tap(link);
@@ -81,6 +87,22 @@ void main() {
     await tester.enterText(field(3), password);
     await tester.enterText(field(4), confirm ?? password);
   }
+
+  testWidgets('splash shows the brand, then opens login', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.75;
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(App(authService: MockAuthService()));
+
+    await tester.pump(const Duration(milliseconds: 1500));
+    expect(find.text(AppInfo.name), findsOneWidget);
+    expect(find.text(AppInfo.tagline), findsOneWidget);
+    expect(find.text('Welcome back'), findsNothing);
+
+    await tester.pumpAndSettle();
+    expect(find.text('Welcome back'), findsOneWidget);
+    expect(find.text(AppInfo.tagline), findsNothing);
+  });
 
   group('login', () {
     testWidgets('empty form shows required errors', (tester) async {
@@ -283,6 +305,19 @@ void main() {
         findsOneWidget,
       );
       expect(find.text('Passwords do not match'), findsOneWidget);
+    });
+
+    testWidgets('strength meter follows the password', (tester) async {
+      await openRegister(tester);
+      expect(find.text('Weak'), findsNothing);
+
+      await tester.enterText(field(3), 'abc');
+      await tester.pump();
+      expect(find.text('Weak'), findsOneWidget);
+
+      await tester.enterText(field(3), 'Secret@123');
+      await tester.pump();
+      expect(find.text('Strong'), findsOneWidget);
     });
 
     testWidgets('mismatch clears when the passwords are made equal', (

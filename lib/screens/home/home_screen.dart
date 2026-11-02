@@ -3,7 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../../core/constants/app_routes.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_theme.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/auth_layout.dart';
 
 /// Where the user lands after signing in.
 class HomeScreen extends StatelessWidget {
@@ -25,79 +27,60 @@ class HomeScreen extends StatelessWidget {
     // The user is cleared on sign out, just before this screen is removed.
     if (user == null) return const SizedBox.shrink();
 
-    final textTheme = Theme.of(context).textTheme;
-
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 440),
-            child: ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(20),
+    return AuthLayout(
+      leading: CircleAvatar(
+        radius: 30,
+        backgroundColor: AppColors.primaryLight,
+        child: Text(
+          user.initials,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: AppColors.primary,
+          ),
+        ),
+      ),
+      title: 'Hello, ${user.firstName}',
+      subtitle: 'You are signed in.',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Your details', style: Theme.of(context).textTheme.titleMedium),
+          const SizedBox(height: 12),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: AppColors.border),
+              borderRadius: BorderRadius.circular(AppTheme.radius),
+            ),
+            child: Column(
               children: [
-                CircleAvatar(
-                  radius: 36,
-                  backgroundColor: AppColors.primaryLight,
-                  child: Text(
-                    user.initials,
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                    ),
-                  ),
+                _DetailTile(
+                  icon: Icons.person_outline_rounded,
+                  label: 'Full name',
+                  value: user.fullName,
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  'Hello, ${user.firstName}',
-                  textAlign: TextAlign.center,
-                  style: textTheme.headlineMedium,
+                const Divider(height: 1, color: AppColors.border),
+                _DetailTile(
+                  icon: Icons.mail_outline_rounded,
+                  label: 'Email',
+                  value: user.email,
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  'You are signed in.',
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 28),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.border),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Column(
-                    children: [
-                      _DetailTile(
-                        icon: Icons.person_outline_rounded,
-                        label: 'Full name',
-                        value: user.fullName,
-                      ),
-                      const Divider(height: 1, color: AppColors.border),
-                      _DetailTile(
-                        icon: Icons.mail_outline_rounded,
-                        label: 'Email',
-                        value: user.email,
-                      ),
-                      const Divider(height: 1, color: AppColors.border),
-                      _DetailTile(
-                        icon: Icons.phone_outlined,
-                        label: 'Mobile',
-                        value: user.mobile,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 24),
-                OutlinedButton.icon(
-                  onPressed: () => _logout(context),
-                  icon: const Icon(Icons.logout_rounded, size: 20),
-                  label: const Text('Sign out'),
+                const Divider(height: 1, color: AppColors.border),
+                _DetailTile(
+                  icon: Icons.phone_outlined,
+                  label: 'Mobile',
+                  value: user.mobile,
                 ),
               ],
             ),
           ),
-        ),
+          const SizedBox(height: 24),
+          OutlinedButton.icon(
+            onPressed: () => _logout(context),
+            icon: const Icon(Icons.logout_rounded, size: 20),
+            label: const Text('Sign out'),
+          ),
+        ],
       ),
     );
   }
@@ -117,7 +100,14 @@ class _DetailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.textSecondary, size: 22),
+      leading: Container(
+        padding: const EdgeInsets.all(9),
+        decoration: BoxDecoration(
+          color: AppColors.primaryLight,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Icon(icon, color: AppColors.primary, size: 20),
+      ),
       title: Text(label, style: Theme.of(context).textTheme.bodyMedium),
       subtitle: Text(value, style: Theme.of(context).textTheme.titleMedium),
     );

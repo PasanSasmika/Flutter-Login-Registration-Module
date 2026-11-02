@@ -82,7 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final isLoading = provider.isLoading;
 
     return AuthLayout(
-      icon: Icons.lock_person_outlined,
       title: 'Welcome back',
       subtitle: 'Sign in to your account to continue.',
       child: Form(

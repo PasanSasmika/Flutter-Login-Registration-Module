@@ -88,6 +88,13 @@ void main() {
     expect(Validators.newPassword('Abcdefg1!'), isNull);
   });
 
+  test('passwordStrength counts the rules met', () {
+    expect(Validators.passwordStrength(''), 0);
+    expect(Validators.passwordStrength('abc'), 1);
+    expect(Validators.passwordStrength('Abcdefgh'), 3);
+    expect(Validators.passwordStrength('Abcdefg1!'), 5);
+  });
+
   test('confirmPassword must match', () {
     expect(
       Validators.confirmPassword('', 'Secret@123'),

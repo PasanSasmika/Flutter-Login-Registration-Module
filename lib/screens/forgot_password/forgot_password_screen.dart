@@ -50,7 +50,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     final successMessage = provider.successMessage;
 
     return AuthLayout(
-      icon: Icons.key_outlined,
       title: successMessage != null ? 'Check your email' : 'Forgot password?',
       subtitle: successMessage != null
           ? 'Follow the link in the email to reset your password.'
