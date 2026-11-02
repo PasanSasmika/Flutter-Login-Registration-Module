@@ -65,6 +65,7 @@ class AppTheme {
         suffixIconColor: AppColors.textSecondary,
         errorMaxLines: 2,
         enabledBorder: border(AppColors.border),
+        disabledBorder: border(AppColors.border),
         focusedBorder: border(AppColors.primary, 1.5),
         errorBorder: border(AppColors.error),
         focusedErrorBorder: border(AppColors.error, 1.5),

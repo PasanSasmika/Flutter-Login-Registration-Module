@@ -51,8 +51,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
     return AuthLayout(
       icon: Icons.key_outlined,
-      title: 'Forgot password?',
-      subtitle: "Enter your email and we'll send you a reset link.",
+      title: successMessage != null ? 'Check your email' : 'Forgot password?',
+      subtitle: successMessage != null
+          ? 'Follow the link in the email to reset your password.'
+          : "Enter your email and we'll send you a reset link.",
       showBackButton: true,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 250),

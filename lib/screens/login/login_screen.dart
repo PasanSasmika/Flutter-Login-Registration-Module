@@ -126,19 +126,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Checkbox(
-                          value: provider.rememberMe,
-                          onChanged: isLoading
-                              ? null
-                              : (value) =>
-                                    provider.setRememberMe(value ?? false),
-                          visualDensity: VisualDensity.compact,
+                        // Sized so the box lines up with the fields above.
+                        SizedBox.square(
+                          dimension: 24,
+                          child: Checkbox(
+                            value: provider.rememberMe,
+                            onChanged: isLoading
+                                ? null
+                                : (value) =>
+                                      provider.setRememberMe(value ?? false),
+                            materialTapTargetSize:
+                                MaterialTapTargetSize.shrinkWrap,
+                          ),
                         ),
+                        const SizedBox(width: 10),
                         const Text('Remember me'),
                       ],
                     ),
                   ),
                   TextButton(
+                    style: TextButton.styleFrom(padding: EdgeInsets.zero),
                     onPressed: isLoading
                         ? null
                         : () => Navigator.pushNamed(
