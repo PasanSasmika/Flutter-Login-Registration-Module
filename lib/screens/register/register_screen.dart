@@ -7,6 +7,7 @@ import '../../widgets/app_snack_bar.dart';
 import '../../widgets/auth_layout.dart';
 import '../../widgets/custom_text_field.dart';
 import '../../widgets/password_field.dart';
+import '../../widgets/password_strength_meter.dart';
 import '../../widgets/primary_button.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -68,7 +69,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final isLoading = provider.isLoading;
 
     return AuthLayout(
-      icon: Icons.person_add_alt_outlined,
       title: 'Create account',
       subtitle: 'Fill in your details to get started.',
       showBackButton: true,
@@ -131,6 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 validator: Validators.newPassword,
                 enabled: !isLoading,
               ),
+              PasswordStrengthMeter(controller: _passwordController),
               const SizedBox(height: 16),
               PasswordField(
                 label: 'Confirm password',

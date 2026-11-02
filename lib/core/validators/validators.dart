@@ -83,6 +83,17 @@ class Validators {
     return null;
   }
 
+  /// How many of the [newPassword] rules are met, from 0 to 5.
+  static int passwordStrength(String password) {
+    return [
+      password.length >= minPasswordLength,
+      password.contains(RegExp(r'[A-Z]')),
+      password.contains(RegExp(r'[a-z]')),
+      password.contains(RegExp(r'[0-9]')),
+      password.contains(RegExp(r'[^A-Za-z0-9]')),
+    ].where((ruleMet) => ruleMet).length;
+  }
+
   static String? confirmPassword(String? value, String password) {
     if (value == null || value.isEmpty) return 'Please confirm your password';
     if (value != password) return 'Passwords do not match';
